@@ -61,7 +61,7 @@ $form.Icon = $Icon
 $form.StartPosition = "CenterScreen"
 $Form.Add_Shown({$Form.Activate()})
 $Label = New-Object System.Windows.Forms.Label
-$label.location = New-Object System.Drawing.Size(35,80)
+$label.location = New-Object System.Drawing.Size(35,75)
 $buttonoff = New-Object Windows.Forms.Button
 $buttonoff.location = New-Object System.Drawing.Size(110,0)
 $buttonr = New-Object Windows.Forms.Button
