@@ -13,6 +13,11 @@ function do_random
 $json = '{"on":true,"effect":"colorloop"}'
 callhue
 }
+function do_brit
+{
+$json = '{"on":true,"bri":'+$brithue+'}'
+callhue
+}
 function PickColor
 {
     $colorDialog = new-object System.Windows.Forms.ColorDialog
@@ -48,9 +53,10 @@ $form.Opacity = 0.7
 $form.MinimizeBox = $False
 $form.MaximizeBox = $False
 $form.FormBorderStyle = 'Fixed3D'
-$Image = [system.drawing.image]::FromFile("fond.jpeg")
+$lpath=pwd
+$Image = [system.drawing.image]::FromFile("$lpath\fond.jpeg")
 $form.BackgroundImage = $Image
-$Icon = New-Object system.drawing.icon ("hue.ico")
+$Icon = New-Object system.drawing.icon ("$lpath\hue.ico")
 $form.Icon = $Icon
 $form.StartPosition = "CenterScreen"
 $Form.Add_Shown({$Form.Activate()})
@@ -59,10 +65,15 @@ $label.location = New-Object System.Drawing.Size(35,80)
 $buttonoff = New-Object Windows.Forms.Button
 $buttonoff.location = New-Object System.Drawing.Size(110,0)
 $buttonr = New-Object Windows.Forms.Button
-$buttonr.location = New-Object System.Drawing.Size(50,120)
+$buttonr.location = New-Object System.Drawing.Size(50,100)
 $buttonc = New-Object Windows.Forms.Button
-$buttonc.location = New-Object System.Drawing.Size(50,60)
+$buttonc.location = New-Object System.Drawing.Size(50,50)
 $buttonon = New-Object Windows.Forms.Button
+$brit = New-Object Windows.Forms.TrackBar
+$brit.location = New-Object System.Drawing.Size(0,130)
+$brit.SetRange(0,255)
+$brit.Value = 200
+$brit.Width = 180
 $buttonon.text = "ON !"
 $buttonoff.text = "OFF !"
 $buttonr.text = "RANDOM"
@@ -76,7 +87,11 @@ $form.controls.add($buttonc)
 $form.controls.add($buttonon)
 $form.controls.add($buttonoff)
 $form.controls.add($buttonr)
-$form.controls.add($checkBox1)
+$form.controls.add($brit)
+$brit.add_ValueChanged({
+$brithue = $brit.Value
+do_brit
+})
 $a=Invoke-WebRequest -UseBasicParsing -ContentType "application/json" -Uri "https://www.meethue.com/api/nupnp" -Method Get
 $iphue=$a.Content.split('"')[7]
 $Label.Text = "IP:" + $iphue
