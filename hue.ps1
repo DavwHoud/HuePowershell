@@ -37,7 +37,7 @@ $Y = 0.2126*$red + 0.7152*$green + 0.0722*$blue
 $Z = 0.0193*$red + 0.1192*$green + 0.9505*$blue
 $xh = $x / ($x + $y + $z)
 $yh = $y / ($x + $z + $z)
-$json='{"on":true,"xy":['+$xh+','+$yh+']}'
+$json='{"on":true,"effect":"none","xy":['+$xh+','+$yh+']}'
 callhue
 }
 function callhue
@@ -46,6 +46,7 @@ Invoke-WebRequest -UseBasicParsing -ContentType "application/json" -Body $json -
 }
 [reflection.assembly]::LoadWithPartialName( "System.Windows.Forms")
 $form= New-Object Windows.Forms.Form
+$toolTip = New-Object System.Windows.Forms.ToolTip
 $form.Text = "By Dav.Robin.free.fr"
 $form.Width = 200
 $form.Height = 200
@@ -60,19 +61,26 @@ $Icon = New-Object system.drawing.icon ("$lpath\hue.ico")
 $form.Icon = $Icon
 $form.StartPosition = "CenterScreen"
 $Form.Add_Shown({$Form.Activate()})
-$Label = New-Object System.Windows.Forms.Label
+$Label = New-Object System.Windows.Forms.LinkLabel
 $label.location = New-Object System.Drawing.Size(35,75)
+$label.TextAlign = "MiddleCenter"
+$toolTip.SetToolTip($label,"Hack it !")
 $buttonoff = New-Object Windows.Forms.Button
 $buttonoff.location = New-Object System.Drawing.Size(110,0)
+$toolTip.SetToolTip($buttonoff,"Bye !")
 $buttonr = New-Object Windows.Forms.Button
 $buttonr.location = New-Object System.Drawing.Size(50,100)
+$toolTip.SetToolTip($buttonr,"Let's ColorLoop !")
 $buttonc = New-Object Windows.Forms.Button
-$buttonc.location = New-Object System.Drawing.Size(50,50)
+$buttonc.location = New-Object System.Drawing.Size(50,45)
+$toolTip.SetToolTip($buttonc,"Pick Color!")
 $buttonon = New-Object Windows.Forms.Button
+$toolTip.SetToolTip($buttonon,"Wake Up !")
 $brit = New-Object Windows.Forms.TrackBar
-$brit.location = New-Object System.Drawing.Size(0,130)
+$brit.location = New-Object System.Drawing.Size(0,135)
 $brit.SetRange(0,255)
 $brit.Value = 200
+$toolTip.SetToolTip($brit,"$brit.Value")
 $brit.Width = 180
 $buttonon.text = "ON !"
 $buttonoff.text = "OFF !"
@@ -95,6 +103,7 @@ do_brit
 $a=Invoke-WebRequest -UseBasicParsing -ContentType "application/json" -Uri "https://www.meethue.com/api/nupnp" -Method Get
 $iphue=$a.Content.split('"')[7]
 $Label.Text = "IP:" + $iphue
+$Label.add_Click({[system.Diagnostics.Process]::start("http://$iphue/debug/clip.html")})
 $json = '{"on":true,"alert":"select"}'
 $check=Invoke-WebRequest -UseBasicParsing -ContentType "application/json" -Body $json -Uri "http://$iphue/api/newdeveloper/groups/0/action" -Method Put
 if ($check.Content -like "*unauthorized*"){
