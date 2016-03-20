@@ -47,7 +47,7 @@ Invoke-WebRequest -UseBasicParsing -ContentType "application/json" -Body $json -
 [reflection.assembly]::LoadWithPartialName( "System.Windows.Forms")
 $form= New-Object Windows.Forms.Form
 $toolTip = New-Object System.Windows.Forms.ToolTip
-$form.Text = "By Dav.Robin.free.fr"
+$form.Text = "HuePowershell"
 $form.Width = 200
 $form.Height = 200
 $form.Opacity = 0.7
