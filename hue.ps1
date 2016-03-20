@@ -64,7 +64,7 @@ $Form.Add_Shown({$Form.Activate()})
 $Label = New-Object System.Windows.Forms.LinkLabel
 $label.location = New-Object System.Drawing.Size(35,75)
 $label.TextAlign = "MiddleCenter"
-$toolTip.SetToolTip($label,"Hack it !")
+$toolTip.SetToolTip($label,"Pimp it !")
 $buttonoff = New-Object Windows.Forms.Button
 $buttonoff.location = New-Object System.Drawing.Size(110,0)
 $toolTip.SetToolTip($buttonoff,"Bye !")
