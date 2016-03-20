@@ -67,7 +67,7 @@ $label.TextAlign = "MiddleCenter"
 $toolTip.SetToolTip($label,"Pimp it !")
 $buttonoff = New-Object Windows.Forms.Button
 $buttonoff.location = New-Object System.Drawing.Size(110,0)
-$toolTip.SetToolTip($buttonoff,"Bye !")
+$toolTip.SetToolTip($buttonoff,"Sleep !")
 $buttonr = New-Object Windows.Forms.Button
 $buttonr.location = New-Object System.Drawing.Size(50,100)
 $toolTip.SetToolTip($buttonr,"Let's ColorLoop !")
