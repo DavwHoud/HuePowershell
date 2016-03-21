@@ -7,3 +7,5 @@ Don't miss to execute  set-executionpolicy remotesigned with powershell
 
 Create a shortcut for hidden powershell window:
 C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -windowstyle hidden -command "& 'URPATH\hue.ps1'
+
+JPEG Background : https://www.flickr.com/photos/9920808@N02/
