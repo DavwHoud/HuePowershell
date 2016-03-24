@@ -18,6 +18,23 @@ function do_brit
 $json = '{"on":true,"bri":'+$brithue+'}'
 callhue
 }
+function do_fire
+{
+if ($go -eq "1"){
+$go=0
+}
+if ($go -eq "0"){
+$go=1
+}
+DO
+{
+$brithue1=Get-Random -minimum 1 -maximum 254
+$brithue2=Get-Random -minimum 1 -maximum 254
+$json1 = '{"on":true,"transitiontime":10,"bri":'+$brithue1+'}'
+$json2 = '{"on":true,"transitiontime":10,"bri":'+$brithue2+'}'
+callhuef
+}until($go -eq "0")
+}
 function PickColor
 {
     $colorDialog = new-object System.Windows.Forms.ColorDialog
@@ -44,9 +61,15 @@ function callhue
 {
 Invoke-WebRequest -UseBasicParsing -ContentType "application/json" -Body $json -Uri "http://$iphue/api/newdeveloper/groups/0/action" -Method Put
 }
+function callhuef
+{
+Invoke-WebRequest -UseBasicParsing -ContentType "application/json" -Body $json1 -Uri "http://$iphue/api/newdeveloper/lights/1/state" -Method Put
+Invoke-WebRequest -UseBasicParsing -ContentType "application/json" -Body $json2 -Uri "http://$iphue/api/newdeveloper/lights/2/state" -Method Put
+}
 [reflection.assembly]::LoadWithPartialName( "System.Windows.Forms")
 $form= New-Object Windows.Forms.Form
 $toolTip = New-Object System.Windows.Forms.ToolTip
+$go=0
 $form.Text = "HuePowershell"
 $form.Width = 200
 $form.Height = 200
@@ -69,8 +92,11 @@ $buttonoff = New-Object Windows.Forms.Button
 $buttonoff.location = New-Object System.Drawing.Size(110,0)
 $toolTip.SetToolTip($buttonoff,"Sleep !")
 $buttonr = New-Object Windows.Forms.Button
-$buttonr.location = New-Object System.Drawing.Size(50,100)
+$buttonr.location = New-Object System.Drawing.Size(110,100)
 $toolTip.SetToolTip($buttonr,"Let's ColorLoop !")
+$buttonf = New-Object Windows.Forms.Button
+$buttonf.location = New-Object System.Drawing.Size(0,100)
+$toolTip.SetToolTip($buttonf,"Let's Fire !")
 $buttonc = New-Object Windows.Forms.Button
 $buttonc.location = New-Object System.Drawing.Size(50,45)
 $toolTip.SetToolTip($buttonc,"Pick Color!")
@@ -85,9 +111,11 @@ $brit.Width = 180
 $buttonon.text = "ON !"
 $buttonoff.text = "OFF !"
 $buttonr.text = "RANDOM"
+$buttonf.text = "FIRE"
 $buttonc.text = "COLOR"
 $buttonon.add_click({do_on})
 $buttonoff.add_click({do_off})
+$buttonf.add_click({do_fire})
 $buttonr.add_click({do_random})
 $buttonc.add_click({PickColor})
 $Form.Controls.Add($Label)
@@ -95,6 +123,7 @@ $form.controls.add($buttonc)
 $form.controls.add($buttonon)
 $form.controls.add($buttonoff)
 $form.controls.add($buttonr)
+$form.controls.add($buttonf)
 $form.controls.add($brit)
 $brit.add_ValueChanged({
 $brithue = $brit.Value
@@ -126,5 +155,3 @@ Start-Sleep -s 3
 $check=Invoke-WebRequest -UseBasicParsing -ContentType "application/json" -Body $json -Uri "http://$iphue/api/newdeveloper/groups/0/action" -Method Put
 $Label.Size = New-Object System.Drawing.Size(100,20)
 $form.ShowDialog()
-
-
